@@ -1,4 +1,5 @@
 require('chromedriver');
+
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By,
     until = webdriver.until;
@@ -6,6 +7,11 @@ var webdriver = require('selenium-webdriver'),
 var driver = new webdriver.Builder()
     .forBrowser('chrome')
     .build();
+
+process.on('unhandledRejection', error => {
+  // Will print "unhandledRejection err is not defined"
+  console.log('unhandledRejection', error.message);
+});
 
 driver.get('http://www.google.com');
 
@@ -19,11 +25,12 @@ driver.findElement(By.name('btnK')).click();
 
 driver.sleep(2000).then(function() {
   driver.getTitle().then(function(title) {
-    if( title === 'Google') {
-      console.log('Test Passed.');
+    if(title === 'webdriver - Google Search') {
+      console.log('Test passed');
     } else {
-      console.log('Test Failed.');
+      console.log('Test failed');
     }
-    driver.quit();
   });
 });
+
+driver.quit();
