@@ -7,15 +7,22 @@ var driver = new webdriver.Builder()
     .forBrowser('chrome')
     .build();
 
-driver.get('http://www.google.com');
-
-driver.findElement(By.name('q')).sendKeys('webdriver');
-
-driver.sleep(1000).then(function() {
-  driver.findElement(By.name('q')).sendKeys(webdriver.Key.TAB);
+// Handing promise rejection simplifies error messages, and prevents deprecation warning
+process.on('unhandledRejection', function(error) {
+  console.log('unhandledRejection', error.message);
 });
 
-driver.findElement(By.name('btnK')).click();
+driver.get('http://www.google.com');
+
+// this element was getting 'found' twice, and intermittently causing a 'stale' element error
+var searchBar = driver.findElement(By.name('q'));
+
+searchBar.sendKeys('webdriver');
+
+driver.sleep(1000).then(function() {
+  // Return key working better than TAB and click()
+  searchBar.sendKeys(webdriver.Key.RETURN);
+});
 
 driver.sleep(2000).then(function() {
   driver.getTitle().then(function(title) {
@@ -24,7 +31,8 @@ driver.sleep(2000).then(function() {
     } else {
       console.log('Test failed');
     }
+    // moved quit inside the last then method to prevent it getting called early
+    driver.quit();
   });
 });
 
-driver.quit();
