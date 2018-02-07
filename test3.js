@@ -37,53 +37,44 @@ async function formTest( testCase ) {
     // await driver.sleep(500);
 
     // open select component for Topic
-    await topicSelect.click();
+    // await topicSelect.click();
+    // await driver.sleep(200);
+
+    // capture option elements from topic dropdown
+    // await driver.findElements(By.css('#field45781633 option'))
+    //             .then(function(arr){
+    //               topicOptions = arr;
+    //             });
+    // iterate through each element (promise) and find match to click
+    // await topicOptions.filter(function(topic) {
+    //   return topic.getText().then(function(text){
+    //     if(text === testCase.topic) {
+    //       topic.click();
+    //     }
+    //   })
+    // });
+    // await driver.sleep(500);
+
+
+    // open select component for County
+    await countySelect.click();
     await driver.sleep(200);
 
-    // here
-
-    await driver.findElements(By.css('#field45781633 option'))
+    // capture option elements from county dropdown
+    await driver.findElements(By.css('#field45784636 option'))
                 .then(function(arr){
-                  topicOptions = arr;
+                  countyOptions = arr;
                 });
-    await topicOptions.filter(function(topic) {
-      return topic.getText().then(function(text){
-        if(text === testCase.topic) {
+
+    // iterate through each element (promise) and find match to click
+    await countyOptions.filter(function(county) {
+      return county.getText().then(function(text){
+        if(text === testCase.county) {
           console.log("Match found!!!");
-          topic.click();
+          county.click();
         }
       })
     });
-
-
-    // driver.promise.filter(topicOptions, function(topic){
-    //   return topic.getText().then(function(text){
-    //     console.log(text);
-    //   })
-    // })
-
-
-    
-    // for (var i = 0; i < options.length; i++) {
-    //     let optText = await options[i].getText();
-    //     console.log('optText');
-    //     if( optText == testCase.topic ){
-    //         console.log('attempting to click ', optText);
-    //         options[i].click();
-    //         break;
-    //     }
-    // }
-    // await driver.sleep(500);
-
-    // await countySelect.click();
-    // for (var j = 0; j < options.length; j++) {
-    //     let optText = await options[j].getText();
-    //     if( optText == testCase.county ){
-    //         console.log('clicking county: ', optText);
-    //         options[j].click();
-    //         break;
-    //     }
-    // }
     // await driver.sleep(500);
 
     // await question.sendKeys(testCase.question);
@@ -101,7 +92,7 @@ const test1 = {
   lastName: "McTesterson",
   email: "testy@prodigy.net",
   topic: "Energy",
-  country: "Rutherford",
+  county: "Rutherford",
   question: "This is a test. Test question for a test field in a test form on an internal TDEC browser testing thingy designed by Testy McTesterson. I repeat, this is just a test. Please disregard."
 }
 
