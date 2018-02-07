@@ -1,6 +1,7 @@
 require('chromedriver');
 const {Builder, By, Key, until} = require('selenium-webdriver');
 
+// error handling or console will yell at you
 process.on('unhandledRejection', function(error) {
   console.log('unhandledRejection', error.message);
 });
@@ -21,39 +22,40 @@ async function formTest( testCase ) {
         countySelect =   driver.findElement(By.id(  'field45784636'        )),
         question =       driver.findElement(By.id(  'field45785718'        )),
         topicOptions,
-        countyOptions;
+        countyOptions,
+        submit =        driver.findElement(By.id(   'fsSubmitButton2475700'));
 
     // populate test values into form
-    // await firstName.sendKeys(testCase.firstName);
-    // await driver.sleep(500);
+    await firstName.sendKeys(testCase.firstName);
+    await driver.sleep(500);
 
-    // await lastName.sendKeys(testCase.lastName);
-    // await driver.sleep(500);
+    await lastName.sendKeys(testCase.lastName);
+    await driver.sleep(500);
 
-    // await email.sendKeys(testCase.email);
-    // await driver.sleep(500);
+    await email.sendKeys(testCase.email);
+    await driver.sleep(500);
 
-    // await emailConfirm.sendKeys(testCase.email);
-    // await driver.sleep(500);
+    await emailConfirm.sendKeys(testCase.email);
+    await driver.sleep(500);
 
     // open select component for Topic
-    // await topicSelect.click();
-    // await driver.sleep(200);
+    await topicSelect.click();
+    await driver.sleep(200);
 
     // capture option elements from topic dropdown
-    // await driver.findElements(By.css('#field45781633 option'))
-    //             .then(function(arr){
-    //               topicOptions = arr;
-    //             });
+    await driver.findElements(By.css('#field45781633 option'))
+                .then(function(arr){
+                  topicOptions = arr;
+                });
     // iterate through each element (promise) and find match to click
-    // await topicOptions.filter(function(topic) {
-    //   return topic.getText().then(function(text){
-    //     if(text === testCase.topic) {
-    //       topic.click();
-    //     }
-    //   })
-    // });
-    // await driver.sleep(500);
+    await topicOptions.filter((topic) => {
+      return topic.getText().then((text) =>{
+        if(text === testCase.topic) {
+          topic.click();
+        }
+      })
+    });
+    await driver.sleep(500);
 
 
     // open select component for County
@@ -67,18 +69,21 @@ async function formTest( testCase ) {
                 });
 
     // iterate through each element (promise) and find match to click
-    await countyOptions.filter(function(county) {
-      return county.getText().then(function(text){
+    await countyOptions.filter((county) => {
+      return county.getText().then((text) => {
         if(text === testCase.county) {
-          console.log("Match found!!!");
           county.click();
         }
       })
     });
-    // await driver.sleep(500);
+    await driver.sleep(500);
 
-    // await question.sendKeys(testCase.question);
-    await driver.sleep(2000);
+    await question.sendKeys(testCase.question);
+    await driver.sleep(500);
+
+    // I'm not going to actually submit this form:
+    // await submit.click();
+    // If next page has expected title, Test passed.
 
   } finally {
 
@@ -86,11 +91,12 @@ async function formTest( testCase ) {
   }
 };
 
+// Test Case
 const test1 = {
   _id: 1,
   firstName: "Testy",
   lastName: "McTesterson",
-  email: "testy@prodigy.net",
+  email: "test@yourmom.com",
   topic: "Energy",
   county: "Rutherford",
   question: "This is a test. Test question for a test field in a test form on an internal TDEC browser testing thingy designed by Testy McTesterson. I repeat, this is just a test. Please disregard."
