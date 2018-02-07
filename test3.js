@@ -79,19 +79,21 @@ async function formTest( testCase ) {
     await driver.sleep(500);
 
     await question.sendKeys(testCase.question);
-    await driver.sleep(500);
+    
 
     // I'm not going to actually submit this form:
     // await submit.click();
+    // await driver.sleep(3000);
     // If next page has expected title, Test passed.
 
   } finally {
-
+    // pause to see result before quitting
+    await driver.sleep(3000);
     await driver.quit();
   }
 };
 
-// Test Case
+// Test Cases
 const test1 = {
   _id: 1,
   firstName: "Testy",
