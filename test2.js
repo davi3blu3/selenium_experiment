@@ -7,7 +7,6 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
     await driver.get('http://www.google.com/ncr');
     await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
     await driver.sleep(2000);
-  } finally {
     await driver.getTitle().then( function(title) {
       if(title === 'webdriver - Google Search') {
         console.log('Test passed');
@@ -15,6 +14,8 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
         console.log('Test failed');
       }
     });
+  } finally {
+
     await driver.quit();
   }
 })();
