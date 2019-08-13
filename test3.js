@@ -90,6 +90,7 @@ async function formTest(testCase) {
 
   } finally {
     // pause to see result before quitting
+    await driver.takeScreenshot()
     await driver.sleep(3000);
     await driver.quit();
   }
