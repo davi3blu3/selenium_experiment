@@ -15,6 +15,6 @@
   "dependencies": {
     "chromedriver": "^2.35.0",
     "geckodriver": "^1.10.0",
-    "selenium-webdriver": "^4.0.0-alpha.1"
+    "selenium-webdriver": "^4.8.2"
   }
 }
